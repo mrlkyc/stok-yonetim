@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: stok-db
+    environment:
+      POSTGRES_DB: stokdb
+      POSTGRES_USER: stokuser
+      POSTGRES_PASSWORD: stokpass
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: stok-app
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/stokdb
+      SPRING_DATASOURCE_USERNAME: stokuser
+      SPRING_DATASOURCE_PASSWORD: stokpass
+
+volumes:
+  postgres_data:

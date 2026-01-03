@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Stok Yönetim</title>
+</head>
+<body>
+
+<h2>Ürün Ekle</h2>
+
+<form action="/add-product" method="post">
+    <input type="text" id="name" name="name" placeholder="Ürün adı"/>
+    <input type="number" id="stock" name="stock" placeholder="Stok"/>
+    <button type="submit" id="addButton">Ekle</button>
+</form>
+
+<hr>
+
+<h2>Ürün Listesi</h2>
+
+<ul id="productList">
+    <li th:each="product : ${products}">
+        <span th:text="${product.name}"></span>
+        (<span th:text="${product.stock}"></span>)
+        <form th:action="@{/delete-product/{id}(id=${product.id})}" method="post" style="display:inline;">
+            <button type="submit">Sil</button>
+        </form>
+    </li>
+</ul>
+
+</body>
+</html>
