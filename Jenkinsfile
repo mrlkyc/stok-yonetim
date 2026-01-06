@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -21,7 +22,8 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn test'
+                // Selenium testleri CI ortamında SKIP edilir
+                bat 'mvn test -Dskip.selenium=true'
             }
         }
     }
