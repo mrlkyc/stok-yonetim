@@ -1,9 +1,13 @@
 pipeline {
     agent any
 
-    stages {
+    tools {
+        maven 'maven-3'
+        jdk 'jdk-21'
+    }
 
-        stage('Git Checkout') {
+    stages {
+        stage('Checkout') {
             steps {
                 checkout scm
             }
@@ -11,7 +15,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                bat 'mvn clean compile'
             }
         }
 
@@ -23,11 +27,8 @@ pipeline {
     }
 
     post {
-        success {
-            echo 'BUILD VE TESTLER BASARILI'
-        }
-        failure {
-            echo 'BUILD VEYA TEST HATASI VAR'
+        always {
+            junit 'target/surefire-reports/*.xml'
         }
     }
 }
