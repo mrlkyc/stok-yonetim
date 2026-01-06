@@ -22,10 +22,11 @@ pipeline {
 
         stage('Start Application') {
             steps {
-                // Spring Boot uygulamasını arka planda başlat
-                bat 'start /B mvn spring-boot:run'
-                // Uygulamanın ayağa kalkması için bekle
-                bat 'timeout /T 20'
+                // Spring Boot'u arka planda başlat
+                bat 'start "" cmd /c mvn spring-boot:run'
+
+                // 20 saniye bekle (timeout yerine ping kullanılır)
+                bat 'ping 127.0.0.1 -n 20 > nul'
             }
         }
 
