@@ -20,10 +20,30 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Start Application') {
             steps {
-                // Selenium testleri CI ortamında SKIP edilir
-                bat 'mvn test -Dskip.selenium=true'
+                // Spring Boot uygulamasını arka planda başlat
+                bat 'start /B mvn spring-boot:run'
+                // Uygulamanın ayağa kalkması için bekle
+                bat 'timeout /T 20'
+            }
+        }
+
+        stage('UI Test - Ana Sayfa') {
+            steps {
+                bat 'mvn test -Dtest=PageOpenTest#anaSayfaAcilmali'
+            }
+        }
+
+        stage('UI Test - Ürün Ekleme') {
+            steps {
+                bat 'mvn test -Dtest=ProductSeleniumTest#urunEklemeCalisiyorMu'
+            }
+        }
+
+        stage('UI Test - Ürün Listeleme') {
+            steps {
+                bat 'mvn test -Dtest=ProductSeleniumTest#urunListelemeCalisiyorMu'
             }
         }
     }

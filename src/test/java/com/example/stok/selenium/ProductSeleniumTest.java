@@ -16,13 +16,6 @@ public class ProductSeleniumTest {
 
     @BeforeEach
     void setup() {
-
-        // 🔴 CI ortamında Selenium testlerini SKIP et
-        Assumptions.assumeTrue(
-                !Boolean.getBoolean("skip.selenium"),
-                "Selenium testleri CI ortamında kapalı"
-        );
-
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -34,7 +27,7 @@ public class ProductSeleniumTest {
         driver.get("http://localhost:8081");
     }
 
-    // 1️⃣ ÜRÜN EKLEME
+    // 🔹 Senaryo 2 – Ürün ekleme
     @Test
     @Order(1)
     void urunEklemeCalisiyorMu() throws InterruptedException {
@@ -45,17 +38,14 @@ public class ProductSeleniumTest {
 
         Thread.sleep(1000);
 
-        String pageSource = driver.getPageSource();
-        assertTrue(pageSource.contains("Selenium Ürün"));
+        assertTrue(driver.getPageSource().contains("Selenium Ürün"));
     }
 
-    // 2️⃣ ÜRÜN LİSTELEME
+    // 🔹 Senaryo 3 – Ürün listeleme
     @Test
     @Order(2)
     void urunListelemeCalisiyorMu() {
-
-        String pageSource = driver.getPageSource();
-        assertTrue(pageSource.contains("Selenium Ürün"));
+        assertTrue(driver.getPageSource().contains("Selenium Ürün"));
     }
 
     @AfterEach
